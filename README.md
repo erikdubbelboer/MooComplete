@@ -1,7 +1,7 @@
 MooComplete
 ===========
 
-Add autocomplete functionality to input elements
+Add autocomplete functionality to input elements.
 
 How to Use
 ----------
@@ -10,7 +10,7 @@ Add MooComplete:
 
     new MooComplete('idofelementhere', {
       list: ['list', 'of', 'elements', 'to', 'use', 'to', 'suggest'],
-    );
+    });
 
 This turns the `<input id="idofelementhere">` into a MooComplete widget. 
 
