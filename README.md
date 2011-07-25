@@ -9,7 +9,8 @@ How to Use
 Add MooComplete:
 
     new MooComplete('idofelementhere', {
-      list: ['list', 'of', 'elements', 'to', 'use', 'to', 'suggest'],
+      list: ['list', 'of', 'elements', 'to', 'use', 'to', 'suggest'], // elements to use to suggest.
+      size: 5 // number of elements to suggest
     });
 
 This turns the `<input id="idofelementhere">` into a MooComplete widget. 

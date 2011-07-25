@@ -7,7 +7,9 @@ license: MIT-style
 authors:
 - Erik Dubbelboer
 
-requires: [Core]
+requires:
+- Core/Element.Event
+- Core/Element.Style
 
 provides: [MooComplete]
 
