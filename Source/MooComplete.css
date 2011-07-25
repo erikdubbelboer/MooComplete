@@ -1,0 +1,16 @@
+
+#autocomplete {
+background-color: #fff;
+border: 1px solid #aaa;
+border-top: 0;
+}
+
+#autocomplete div {
+padding: 0 0.5em;
+cursor: pointer;
+}
+
+#autocomplete .hovered {
+background-color: #ccc;
+}
+
