@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+<meta charset=utf-8>
+
+<meta name=author content="https://github.com/ErikDubbelboer/">
+
+<title>MooComplete demo</title>
+
+<link rel=stylesheet href="../MooComplete.css" media=all>
+
+<style>
+.example {
+margin: 2em;
+float: left;
+}
+
+.population {
+float: right;
+color: #888;
+}
+</style>
+
+<script src="//ajax.googleapis.com/ajax/libs/mootools/1.3.2/mootools-yui-compressed.js"></script>
+
+<script src="../MooComplete.js"></script>
+
+<script>
+
+var fruits = [
+  'apple',
+  'apricot',
+  'avocado',
+  'banana',
+  'bilberry',
+  'blackberry',
+  'blackcurrant',
+  'blueberry',
+  'currant',
+  'cherry',
+  'cherimoya',
+  'clementine',
+  'durian',
+  'eggplant',
+  'elderberry',
+  'feijoa',
+  'gooseberry',
+  'grape',
+  'grapefruit',
+  'huckleberry',
+  'jackfruit',
+  'jambul',
+  'kiwi fruit',
+  'kumquat',
+  'legume',
+  'lemon',
+  'lime',
+  'lychee',
+  'mango',
+  'mangostine',
+  'melon',
+  'cantaloupe',
+  'honeydew melon',
+  'watermelon',
+  'rock melon',
+  'nectarine',
+  'orange',
+  'peach',
+  'pear',
+  'physalis',
+  'plum',
+  'prune',
+  'pineapple',
+  'pomegranate',
+  'raisin',
+  'raspberry',
+  'rambutan',
+  'redcurrant',
+  'salal berry',
+  'satsuma',
+  'star fruit',
+  'strawberry',
+  'tangerine',
+  'tomato'
+];
+
+
+var cities = [
+  {n: 'Shanghai',         c: 17836133},
+  {n: 'Karachi',          c: 12991000},
+  {n: 'Istanbul',         c: 12946730},
+  {n: 'Delhi',            c: 12565901},
+  {n: 'Mumbai',           c: 12478447},
+  {n: 'Beijing',          c: 11716000},
+  {n: 'Moscow',           c: 11551930},
+  {n: 'Sao Paulo',        c: 11244369},
+  {n: 'Seoul',            c: 10575447},
+  {n: 'Jakarta',          c: 9588198},
+  {n: 'Tokyo',            c: 8887608},
+  {n: 'Mexico City',      c: 8873017},
+  {n: 'Kinshasa',         c: 8754000},
+  {n: 'New York City',    c: 8363710},
+  {n: 'Lagos',            c: 7937932},
+  {n: 'London',           c: 7753600},
+  {n: 'Guangzhou',        c: 7727163},
+  {n: 'Lima',             c: 7605742},
+  {n: 'Bogota',           c: 7467804},
+  {n: 'Tehran',           c: 7241000},
+  {n: 'Ho Chi Minh City', c: 7162864},
+  {n: 'Hong Kong',        c: 7026400},
+  {n: 'Bangkok',          c: 7025000},
+  {n: 'Dhaka',            c: 7000940},
+  {n: 'Tianjin',          c: 6859779},
+  {n: 'Cairo',            c: 6758581},
+  {n: 'Hanoi',            c: 6500000},
+  {n: 'Rio de Janeiro',   c: 6323037},
+  {n: 'Lahore',           c: 6318745},
+  {n: 'Chongqing',        c: 5954800},
+  {n: 'Bangalore',        c: 5840155},
+  {n: 'Baghdad',          c: 5402486},
+  {n: 'Riyadh',           c: 5188286},
+  {n: 'Singapore',        c: 5076007},
+  {n: 'Santiago',         c: 5012973},
+  {n: 'Saint Petersburg', c: 4868520},
+  {n: 'Surat',            c: 4786002},
+  {n: 'Chennai',          c: 4616639},
+  {n: 'Kolkata',          c: 4486679},
+  {n: 'Yangon',           c: 4350000},
+  {n: 'Ankara',           c: 4223398},
+  {n: 'Alexandria',       c: 4110015},
+  {n: 'Shenyang',         c: 4101197},
+  {n: 'Hyderabad',        c: 4068611},
+  {n: 'Ahmedabad',        c: 3959432},
+  {n: 'Johannesburg',     c: 3888180},
+  {n: 'Wuhan',            c: 3807950},
+  {n: 'Los Angeles',      c: 3792621},
+  {n: 'Yokohama',         c: 3680267},
+  {n: 'Abidjan',          c: 3660682},
+  {n: 'Busan',            c: 3600381},
+  {n: 'Cape Town',        c: 3497097},
+  {n: 'Durban',           c: 3468086},
+  {n: 'Pune',             c: 3446330},
+  {n: 'Jeddah',           c: 3430697},
+  {n: 'Berlin',           c: 3424764},
+  {n: 'Pyongyang',        c: 3255388},
+  {n: 'Kanpur',           c: 3221435},
+  {n: 'Madrid',           c: 3213271},
+  {n: 'Jaipur',           c: 3210570},
+  {n: 'Nairobi',          c: 3138369}
+];
+
+
+window.addEvent('domready', function() {
+  // Simple example
+  new MooComplete('demo', {
+    list: fruits
+  });
+
+
+  // Advanced example
+  new MooComplete('advanceddemo', {
+    list: cities,
+    size: 5,
+    render: function(v) {
+      return [
+        new Element('span', {
+          text: v.n
+        }),
+        new Element('span', {
+          html:  '(&plusmn;'+v.c+')',
+          class: 'population'
+        })
+      ];
+    },
+    get: function(v) {
+      return v.n;
+    }
+  });
+});
+</script>
+
+</head>
+<body>
+
+
+<div class="example">
+<h2>Simple example</h2>
+
+<p>
+Start typing the name of a fruit
+</p>
+
+<p>
+<input type=text id=demo autocomplete=off size=35>
+</p>
+</div>
+
+
+<div class="example">
+<h2>Advanced example</h2>
+
+<p>
+Start typing the name of a big city
+</p>
+
+<p>
+<input type=text id=advanceddemo autocomplete=off size=35>
+</p>
+</div>
+
+
+</body>
+</html>

@@ -15,10 +15,16 @@ Add MooComplete:
 
 This turns the `<input id="idofelementhere">` into a MooComplete widget. 
 
-You can also pass functions to render the elements in the list. For more documentation on this please check the source.
+You can also pass functions to render the elements in the list. For more documentation on this please check the source and the [advanced example](http://dubbelboer.com/MooComplete/)
+
+Example
+-------
+
+You can find an example at [http://dubbelboer.com/MooComplete/](http://dubbelboer.com/MooComplete/)
 
 Screenshots
 -----------
 
 ![Screenshot](http://dubbelboer.com/MooComplete/demo.png)
+![Screenshot](http://dubbelboer.com/MooComplete/demo2.png)
 
