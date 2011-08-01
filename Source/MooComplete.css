@@ -3,6 +3,7 @@
 background-color: #fff;
 border: 1px solid #aaa;
 border-top: 0;
+z-index: 999;
 }
 
 #autocomplete div {
