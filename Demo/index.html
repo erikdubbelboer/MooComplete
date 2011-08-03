@@ -164,11 +164,11 @@ window.addEvent('domready', function() {
     render: function(v) {
       return [
         new Element('span', {
-          text: v.n
+          html:    '(&plusmn;'+v.c+')',
+          'class': 'population'
         }),
         new Element('span', {
-          html:  '(&plusmn;'+v.c+')',
-          class: 'population'
+          text: v.n
         })
       ];
     },

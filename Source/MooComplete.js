@@ -58,6 +58,10 @@ function MooComplete(element, options) {
   // For older versions of IE this doesn't work, for those you need to set autocomplete=off in the html.
   element.setAttribute('autocomplete', 'off');
 
+  // Disable auto correct and capitalize on iPhone and iPad.
+  element.setAttribute('autocorrect', 'off');
+  element.setAttribute('autocapitalize', 'off');
+
   var box = new Element('div', {
     'id':     'autocomplete',
     'styles': {
@@ -72,12 +76,25 @@ function MooComplete(element, options) {
       suggestions = 0;
 
 
+  // We need this function for it to work in ie 6 and 7.
+  function realOffset(el, offsetType) {
+    var offset = 0;
+
+    while(el) {
+      offset += el[offsetType]; 
+      el = el.offsetParent;
+    }
+
+    return offset;
+  }
+
+
   // Update the position of the box.
   function position() {
     box.setStyles({
       'width': (element.getWidth() - 2)+'px',
-      'top':   (element.offsetTop + element.getHeight())+'px',
-      'left':  (element.offsetLeft)+'px'
+      'top':   (realOffset(element, 'offsetTop') + element.getHeight())+'px',
+      'left':  realOffset(element, 'offsetLeft')+'px'
     });
   }
   position();
@@ -92,6 +109,7 @@ function MooComplete(element, options) {
     var v = element.get('value').toLowerCase();
 
     if (v.length == 0) {
+      box.setStyle('display', 'none');
       return;
     }
 
@@ -113,7 +131,7 @@ function MooComplete(element, options) {
 
           box.adopt(new Element('div', {
             'events': {
-              'mousemove': function() { // don't use mouseover since that will bugg when the user has the mouse below the input box while typing
+              'mousemove': function() { // don't use mouseover since that will bug when the user has the mouse below the input box while typing
                 if (!hiding) {
                   hover = li;
                   showHover();
