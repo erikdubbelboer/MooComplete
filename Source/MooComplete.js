@@ -63,7 +63,7 @@ function MooComplete(element, options) {
   element.setAttribute('autocapitalize', 'off');
 
   var box = new Element('div', {
-    'id':     'autocomplete',
+    'class':  'moocomplete',
     'styles': {
       'position': 'absolute',
       'display':  'none'
@@ -72,7 +72,7 @@ function MooComplete(element, options) {
 
   var old,
       hover       = -1,
-      hiding      = true,
+      hiding      = false,
       suggestions = 0;
 
 
@@ -215,6 +215,7 @@ function MooComplete(element, options) {
     },
     'blur': function() {
       hover  = -1;
+      old    = element.get('value');
       hiding = true;
 
       (function() {

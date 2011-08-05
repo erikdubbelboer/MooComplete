@@ -1,17 +1,17 @@
 
-#autocomplete {
+.moocomplete {
 background-color: #fff;
 border: 1px solid #aaa;
 border-top: 0;
 z-index: 999;
 }
 
-#autocomplete div {
+.moocomplete div {
 padding: 0 0.2em;
 cursor: pointer;
 }
 
-#autocomplete .hovered {
+.moocomplete .hovered {
 background-color: #ccc;
 }
 
