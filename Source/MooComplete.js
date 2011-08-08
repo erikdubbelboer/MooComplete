@@ -97,7 +97,6 @@ function MooComplete(element, options) {
       'left':  realOffset(element, 'offsetLeft')+'px'
     });
   }
-  position();
   
   
   // Reposition on a resize.
@@ -148,6 +147,8 @@ function MooComplete(element, options) {
         return true;
       });
     });
+
+    position();
 
     box.setStyle('display', 'block');
   }
