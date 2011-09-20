@@ -139,7 +139,7 @@ function MooComplete(element, options) {
             }
           }).adopt(options.render(o)).store('val', o));
 
-          if (suggestions == 10) {
+          if (suggestions == options.size) {
             return false;
           }
         }
