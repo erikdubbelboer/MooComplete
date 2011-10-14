@@ -1,6 +1,6 @@
 name: MooComplete
 author: erikdubbelboer
-current: 1.7
+current: 1.9
 category: Forms
 tags: [keyboard, input, autocomplete, suggest]
 docs: https://github.com/ErikDubbelboer/MooComplete/blob/master/README.md
