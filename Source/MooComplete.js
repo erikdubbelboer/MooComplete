@@ -21,7 +21,8 @@ provides: [MooComplete]
 //  - list: Array              the list of elements to autocomplete from
 //  - size: number             the number of elements to suggest
 //  - render: function(value)  the function called when rendering an element from the list
-//  - get: function(value)     the function called when putting an element from the list into the input element
+//  - get: function(value)     the function called when testing the value against the input
+//  - set: function(value)     the function called when putting an element from the list into the input element (detauls to the get function)
 function MooComplete(element, options) {
   options = options || {};
 
@@ -52,6 +53,11 @@ function MooComplete(element, options) {
     };
   }
 
+  if (!options.set) {
+    // The default function is the same as the get function.
+    options.set = options.get;
+  }
+
   
   element = $(element);
 
@@ -80,10 +86,9 @@ function MooComplete(element, options) {
   function realOffset(el, offsetType) {
     var offset = 0;
 
-    while(el) {
+    do {
       offset += el[offsetType]; 
-      el = el.offsetParent;
-    }
+    } while ((el = el.offsetParent) && (el.getStyle('position') != 'relative'));
 
     return offset;
   }
@@ -163,7 +168,7 @@ function MooComplete(element, options) {
     if (hover >= 0) {
       c[hover].addClass('hovered');
 
-      element.set('value', options.get(c[hover].retrieve('val')));
+      element.set('value', options.set(c[hover].retrieve('val')));
     }
   }
 
@@ -177,7 +182,7 @@ function MooComplete(element, options) {
       if (e.code == 38) { // up
         if (hover >= 0) {
           if (hover == 0) {
-            element.set('value', old);
+            element.set('value',  options.set(old));
           }
 
           --hover;
@@ -198,7 +203,7 @@ function MooComplete(element, options) {
         box.setStyle('display', 'none');
       } else if ((e.code != 38) && // up
                  (e.code != 40)) { // down
-        old = element.get('value');
+        old = element.retrieve('val');
 
         if (e.code != 13) { // enter
           showSuggestions();
@@ -216,7 +221,7 @@ function MooComplete(element, options) {
     },
     'blur': function() {
       hover  = -1;
-      old    = element.get('value');
+      old    = element.retrieve('val');
       hiding = true;
 
       (function() {
@@ -225,7 +230,7 @@ function MooComplete(element, options) {
     },
     'mousemove': function() {
       if (hover >= 0) {
-        element.set('value', old);
+        element.set('value',  options.set(old));
         hover = -1;
         showHover();
       }
