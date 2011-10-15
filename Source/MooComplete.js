@@ -88,7 +88,7 @@ function MooComplete(element, options) {
 
     do {
       offset += el[offsetType]; 
-    } while ((el = el.offsetParent) && (el.getStyle('position') != 'relative'));
+    } while ((el = el.offsetParent) && (el.getStyle && (el.getStyle('position') != 'relative')));
 
     return offset;
   }
