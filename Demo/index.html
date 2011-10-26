@@ -7,11 +7,12 @@
 
 <title>MooComplete demo</title>
 
-<link rel=stylesheet href="../MooComplete.css" media=all>
+<link rel=stylesheet href="../Source/MooComplete.css" media=all>
 
 <style>
 .example {
 margin: 2em;
+position:relative;
 float: left;
 }
 
@@ -21,9 +22,9 @@ color: #888;
 }
 </style>
 
-<script src="//ajax.googleapis.com/ajax/libs/mootools/1.3.2/mootools-yui-compressed.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/mootools/1.3.2/mootools-yui-compressed.js"></script>
 
-<script src="../MooComplete.js"></script>
+<script src="../Source/MooComplete.js"></script>
 
 <script>
 
@@ -149,6 +150,8 @@ var cities = [
   {n: 'Nairobi',          c: 3138369}
 ];
 
+var tags = fruits.concat(cities);
+
 
 window.addEvent('domready', function() {
   // Simple example
@@ -173,7 +176,26 @@ window.addEvent('domready', function() {
       ];
     },
     get: function(v) {
-      return v.n;
+      return v ? v.n : '';
+    }
+  });
+
+  // Tag example
+  new MooComplete($('tagdemo'), {
+    mode: 'tag',
+    list: tags,
+    size: 8,
+    render: function(v) {
+      if(v && typeof v.n != 'undefined') t = v.n;
+      else t = v;
+	  return new Element('span', {
+          text: t
+      })
+    },
+    get: function(v) {
+      if( v && typeof v.n != 'undefined') t = v.n;
+      else t = v;
+	  return t;
     }
   });
 });
@@ -208,6 +230,17 @@ Start typing the name of a big city
 </p>
 </div>
 
+<div class="example">
+<h2>Tag example</h2>
+
+<p>
+Start typing comma separated tags (fruit and cities)
+</p>
+
+<p>
+<input type=text id=tagdemo autocomplete=off size=35>
+</p>
+</div>
 
 </body>
 </html>

@@ -1,6 +1,6 @@
 /*
 ---
-description: Add autocomplete functionality to input elements.
+description: Add autocomplete functionality to input elements, provides tag and normal text autocmplete modes.
 
 license: MIT-style
 
@@ -16,10 +16,14 @@ provides: [MooComplete]
 ...
 */
 
+/*
+tag mode and some other minor changes provided by abidibo <abidibo@gmail.com> <http://www.abidibo.net> <http://github.com/abidibo>
+*/
 
 // options should be an object and can contain the following members:
 //  - list: Array              the list of elements to autocomplete from
 //  - size: number             the number of elements to suggest
+//  - mode: string             the autocomplete mode (tag or text), default text
 //  - render: function(value)  the function called when rendering an element from the list
 //  - get: function(value)     the function called when testing the value against the input
 //  - set: function(value)     the function called when putting an element from the list into the input element (detauls to the get function)
@@ -35,6 +39,9 @@ function MooComplete(element, options) {
 
 
   options.size = options.size || 10;
+
+  // tag mode | text mode others in future?
+  options.mode = options.mode || 'text';
 
 
   if (!options.render) {
@@ -58,8 +65,8 @@ function MooComplete(element, options) {
     options.set = options.get;
   }
 
-  
-  element = $(element);
+  // allow id and dom object selection 
+  element = typeOf(element)==='string' ? $(element) : element;
 
   // For older versions of IE this doesn't work, for those you need to set autocomplete=off in the html.
   element.setAttribute('autocomplete', 'off');
@@ -74,43 +81,37 @@ function MooComplete(element, options) {
       'position': 'absolute',
       'display':  'none'
     }
-  }).inject(element, 'after');
+  }).inject(document.body);
 
   var old,
       hover       = -1,
       hiding      = false,
       suggestions = 0;
 
-
-  // We need this function for it to work in ie 6 and 7.
-  function realOffset(el, offsetType) {
-    var offset = 0;
-
-    do {
-      offset += el[offsetType]; 
-    } while ((el = el.offsetParent) && (el.getStyle && (el.getStyle('position') != 'relative')));
-
-    return offset;
-  }
-
-
   // Update the position of the box.
   function position() {
     box.setStyles({
       'width': (element.getWidth() - 2)+'px',
-      'top':   (realOffset(element, 'offsetTop') + element.getHeight())+'px',
-      'left':  realOffset(element, 'offsetLeft')+'px'
+      'top':   (element.getCoordinates().top + element.getHeight())+'px',
+      'left':  element.getCoordinates().left +'px'
     });
   }
-  
   
   // Reposition on a resize.
   window.addEvent('resize', position);
 
+  // get element value to search for
+  function getNeedle() {
+    if(options.mode==='tag') {
+		element.store('input_value', element.get('value').substring(0, element.get('value').lastIndexOf(',')+1));
+		return element.get('value').substr(element.get('value').lastIndexOf(',')+1 || 0).toLowerCase().trim();
+    }
+    else return element.get('value').toLowerCase();
+  }
 
   // Show suggestions for current input.
   function showSuggestions() {
-    var v = element.get('value').toLowerCase();
+    var v = getNeedle();
 
     if (v.length == 0) {
       box.setStyle('display', 'none');
@@ -168,7 +169,12 @@ function MooComplete(element, options) {
     if (hover >= 0) {
       c[hover].addClass('hovered');
 
-      element.set('value', options.set(c[hover].retrieve('val')));
+      if(options.mode==='tag') { 
+        element.set('value', element.retrieve('input_value') + options.set(c[hover].retrieve('val')));
+      }
+      else {
+        element.set('value', options.set(c[hover].retrieve('val')));
+      }
     }
   }
 
