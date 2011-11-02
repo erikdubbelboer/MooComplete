@@ -22,7 +22,7 @@ color: #888;
 }
 </style>
 
-<script src="http://ajax.googleapis.com/ajax/libs/mootools/1.3.2/mootools-yui-compressed.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/mootools/1.3.2/mootools-yui-compressed.js"></script>
 
 <script src="../Source/MooComplete.js"></script>
 
@@ -186,16 +186,22 @@ window.addEvent('domready', function() {
     list: tags,
     size: 8,
     render: function(v) {
-      if(v && typeof v.n != 'undefined') t = v.n;
-      else t = v;
-	  return new Element('span', {
-          text: t
-      })
+      if (typeof v.n != 'undefined') {
+        var t = v.n;
+      } else {
+        var t = v;
+      }
+
+	    return new Element('span', {
+        text: t
+      });
     },
     get: function(v) {
-      if( v && typeof v.n != 'undefined') t = v.n;
-      else t = v;
-	  return t;
+      if (typeof v.n != 'undefined') {
+        return v.n;
+      } else {
+        return v;
+      }
     }
   });
 });

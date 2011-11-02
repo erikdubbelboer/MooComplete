@@ -23,7 +23,7 @@ tag mode and some other minor changes provided by abidibo <abidibo@gmail.com> <h
 // options should be an object and can contain the following members:
 //  - list: Array              the list of elements to autocomplete from
 //  - size: number             the number of elements to suggest
-//  - mode: string             the autocomplete mode (tag or text), default text
+//  - mode: string             the autocomplete mode ('tag' or 'text'), default 'text'
 //  - render: function(value)  the function called when rendering an element from the list
 //  - get: function(value)     the function called when testing the value against the input
 //  - set: function(value)     the function called when putting an element from the list into the input element (detauls to the get function)
@@ -102,11 +102,12 @@ function MooComplete(element, options) {
 
   // get element value to search for
   function getNeedle() {
-    if(options.mode==='tag') {
-		element.store('input_value', element.get('value').substring(0, element.get('value').lastIndexOf(',')+1));
-		return element.get('value').substr(element.get('value').lastIndexOf(',')+1 || 0).toLowerCase().trim();
+    if (options.mode === 'tag') {
+		  element.store('input_value', element.get('value').substring(0, element.get('value').lastIndexOf(',')+1));
+		  return element.get('value').substr(element.get('value').lastIndexOf(',')+1 || 0).toLowerCase().trim();
+    } else {
+      return element.get('value').toLowerCase();
     }
-    else return element.get('value').toLowerCase();
   }
 
   // Show suggestions for current input.
