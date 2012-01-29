@@ -27,9 +27,9 @@ tag mode and some other minor changes provided by abidibo <abidibo@gmail.com> <h
 //  - render: function(value)  the function called when rendering an element from the list
 //  - get: function(value)     the function called when testing the value against the input
 //  - set: function(value)     the function called when putting an element from the list into the input element (detauls to the get function)
+//  - filters: Array           lits of function to filter suggestions
 function MooComplete(element, options) {
   options = options || {};
-
 
   var list = options.list || [];
   
@@ -37,7 +37,13 @@ function MooComplete(element, options) {
     list = l;
   }
 
-
+  // First add suggestions that match the start, then suggestions that match the middle.
+  if (!options.filters) {
+      options.filters = [
+          function(o, v) { return (o.indexOf(v) == 0); },
+          function(o, v) { return ((v.length > 1) && (o.indexOf(v) > 0)); }
+      ];
+  }
   options.size = options.size || 10;
 
   // tag mode | text mode others in future?
@@ -123,10 +129,7 @@ function MooComplete(element, options) {
 
     box.empty();
 
-    // First add suggestions that match the start, then suggestions that match the middle.
-    [ function(o, v) { return (o.indexOf(v) == 0); },
-      function(o, v) { return ((v.length > 1) && (o.indexOf(v) > 0)); }
-    ].each(function(f) {
+    options.filters.each(function(f) {
       if (suggestions == options.size) {
         return;
       }
@@ -157,7 +160,12 @@ function MooComplete(element, options) {
 
     position();
 
-    box.setStyle('display', 'block');
+    // If no suggestions, no need to show the box
+    if (suggestions > 0) {
+        box.setStyle('display', 'block');
+    } else {
+        box.setStyle('display', 'none');
+    }
   }
 
 
