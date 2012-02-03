@@ -27,23 +27,24 @@ tag mode and some other minor changes provided by abidibo <abidibo@gmail.com> <h
 //  - render: function(value)  the function called when rendering an element from the list
 //  - get: function(value)     the function called when testing the value against the input
 //  - set: function(value)     the function called when putting an element from the list into the input element (detauls to the get function)
-//  - filters: Array           lits of function to filter suggestions
+//  - filters: Array           list of functions to filter suggestions. The functions should take two arguments, the first is the suggestion from the list, the second is the user input. If a function returns true the suggestion will be added to the list.
 function MooComplete(element, options) {
   options = options || {};
 
   var list = options.list || [];
-  
+
   this.setList = function(l) {
     list = l;
   }
 
   // First add suggestions that match the start, then suggestions that match the middle.
   if (!options.filters) {
-      options.filters = [
-          function(o, v) { return (o.indexOf(v) == 0); },
-          function(o, v) { return ((v.length > 1) && (o.indexOf(v) > 0)); }
-      ];
+    options.filters = [
+      function(o, v) { return (o.indexOf(v) == 0); },
+      function(o, v) { return ((v.length > 1) && (o.indexOf(v) > 0)); }
+    ];
   }
+
   options.size = options.size || 10;
 
   // tag mode | text mode others in future?
@@ -71,7 +72,7 @@ function MooComplete(element, options) {
     options.set = options.get;
   }
 
-  // allow id and dom object selection 
+  // allow id and dom object selection
   element = typeOf(element)==='string' ? $(element) : element;
 
   // For older versions of IE this doesn't work, for those you need to set autocomplete=off in the html.
@@ -97,20 +98,21 @@ function MooComplete(element, options) {
   // Update the position of the box.
   function position() {
     box.setStyles({
-      'width': (element.getWidth() - 2)+'px',
-      'top':   (element.getCoordinates().top + element.getHeight())+'px',
+      'width': (element.getWidth() - 2) + 'px',
+      'top':   (element.getCoordinates().top + element.getHeight()) + 'px',
       'left':  element.getCoordinates().left +'px'
     });
   }
-  
+
   // Reposition on a resize.
   window.addEvent('resize', position);
 
   // get element value to search for
   function getNeedle() {
     if (options.mode === 'tag') {
-		  element.store('input_value', element.get('value').substring(0, element.get('value').lastIndexOf(',')+1));
-		  return element.get('value').substr(element.get('value').lastIndexOf(',')+1 || 0).toLowerCase().trim();
+      element.store('input_value', element.get('value').substring(0, element.get('value').lastIndexOf(',') + 1));
+
+      return element.get('value').substr(element.get('value').lastIndexOf(',') + 1 || 0).toLowerCase().trim();
     } else {
       return element.get('value').toLowerCase();
     }
@@ -178,10 +180,9 @@ function MooComplete(element, options) {
     if (hover >= 0) {
       c[hover].addClass('hovered');
 
-      if(options.mode==='tag') { 
+      if (options.mode==='tag') {
         element.set('value', element.retrieve('input_value') + options.set(c[hover].retrieve('val')));
-      }
-      else {
+      } else {
         element.set('value', options.set(c[hover].retrieve('val')));
       }
     }
