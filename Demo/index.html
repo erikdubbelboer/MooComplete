@@ -164,6 +164,7 @@ window.addEvent('domready', function() {
   new MooComplete('advanceddemo', {
     list: cities,
     size: 5,
+    showonkeydown: false,
     render: function(v) {
       return [
         new Element('span', {

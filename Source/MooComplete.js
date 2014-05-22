@@ -24,6 +24,7 @@ tag mode and some other minor changes provided by abidibo <abidibo@gmail.com> <h
 //  - list: Array              the list of elements to autocomplete from
 //  - size: number             the number of elements to suggest
 //  - mode: string             the autocomplete mode ('tag' or 'text'), default 'text'
+//  - showonkeydown: boolean   shows suggestions on key down
 //  - render: function(value)  the function called when rendering an element from the list
 //  - get: function(value)     the function called when testing the value against the input
 //  - set: function(value)     the function called when putting an element from the list into the input element (detauls to the get function)
@@ -50,6 +51,7 @@ function MooComplete(element, options) {
   // tag mode | text mode others in future?
   options.mode = options.mode || 'text';
 
+  options.showonkeydown = (typeof options.showonkeydown == 'undefined') ? true : false;
 
   if (!options.render) {
     // Default render function assumes a list of strings and just puts a span around it.
@@ -119,10 +121,10 @@ function MooComplete(element, options) {
   }
 
   // Show suggestions for current input.
-  function showSuggestions() {
+  function showSuggestions(noEmpty) {
     var v = getNeedle();
 
-    if (v.length == 0) {
+    if ((v.length == 0) && !noEmpty) {
       box.setStyle('display', 'none');
       return;
     }
@@ -192,6 +194,10 @@ function MooComplete(element, options) {
   element.addEvents({
     'keydown': function(e) {
       if (box.getStyle('display') == 'none') {
+        if (options.showonkeydown && (e.code == 40)) { // down
+          showSuggestions(true);
+        }
+
         return;
       }
 
