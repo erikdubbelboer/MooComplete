@@ -10,7 +10,7 @@ Add MooComplete:
 
     new MooComplete('idofelementhere', {
       list: ['list', 'of', 'elements', 'to', 'use', 'to', 'suggest'], // elements to use to suggest.
-      mode: 'text' // suggestion mode (tag | text)
+      mode: 'text', // suggestion mode (tag | text)
       size: 5 // number of elements to suggest
     });
 
